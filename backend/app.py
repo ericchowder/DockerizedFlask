@@ -1,10 +1,15 @@
 import os
-from flask import Flask
+from flask import Flask, jsonify
+from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return "Flask Dockerized"
+    return "Flask Dockerized!"
+
+@app.route('/test', methods=['GET'])
+def get():
+    return jsonify({ 'msg': 'returning Hello World' })
 
 if __name__ == '__main__':
     # Bind to PORT if defined, otherwise default to 5000.
