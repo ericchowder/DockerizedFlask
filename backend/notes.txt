@@ -1,0 +1,4 @@
+Db creation:
+1. cli "python"
+2. from app import db
+3. db.create_all()
