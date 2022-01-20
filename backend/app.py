@@ -1,6 +1,6 @@
 ### IMPORTS ###
 import os
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 
@@ -30,9 +30,12 @@ class User(db.Model):
     admin = db.Column(db.Boolean)
 
     # Constructor
-    def __init__(self, name, password):
+    def __init__(self, id, public_id, name, password, admin):
+        self.id = id
+        self.public_id = public_id
         self.name = name
         self.password = password
+        self.admin = admin
 
 # User Schema
 class UserSchema(ma.Schema):
@@ -44,14 +47,31 @@ user_schema = UserSchema(strict=True)
 
 
 ### ROUTES ###
+# Health 
 @app.route('/')
 def hello_world():
     return "Flask Dockerized!"
 
+# Test
 @app.route('/test', methods=['GET'])
 def get():
     return jsonify({ 'msg': 'returning Hello World' })
 
+# User Creation
+@app.route('/user', methods=['POST'])
+def add_user():
+    id = request.json['id']
+    public_id = request.json['public_id']
+    name = request.json['name']
+    password = request.json['password']
+    admin = request.json['admin']
+    # Instantiate User
+    new_user = User(id, public_id, name, password, admin)
+    # Add user to db
+    db.session.add(new_user)
+    db.session.commit()
+    # Respond with new user
+    return user_schema.jsonify(new_user)
 
 ### SERVER ###
 if __name__ == '__main__':
