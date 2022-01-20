@@ -1,8 +1,11 @@
+### IMPORTS ###
 import os
 from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 
+
+### SET UP ###
 # Init app
 app = Flask(__name__)
 # Current directory
@@ -16,6 +19,8 @@ db = SQLAlchemy(app)
 # Init ma
 ma = Marshmallow(app)
 
+
+### DEFINITIONS ###
 # Product Class/Model
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -37,6 +42,8 @@ class UserSchema(ma.Schema):
 # Init Schema
 user_schema = UserSchema(strict=True)
 
+
+### ROUTES ###
 @app.route('/')
 def hello_world():
     return "Flask Dockerized!"
@@ -45,7 +52,8 @@ def hello_world():
 def get():
     return jsonify({ 'msg': 'returning Hello World' })
 
-# Server
+
+### SERVER ###
 if __name__ == '__main__':
     # Bind to PORT if defined, otherwise default to 5000.
     port = int(os.environ.get('PORT', 5000))
