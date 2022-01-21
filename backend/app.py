@@ -85,12 +85,35 @@ def get_users():
     result = jsonify(users_schema.dump(all_users))
     return (result)
     
-
 # Retrieve Single User
 @app.route("/user/<id>", methods=['GET'])
-def user_detail(id):
+def get_user(id):
     user = User.query.get(id)
     return user_schema.dump(user)
+
+# Edit Single User
+@app.route("/user/<id>", methods=['PUT'])
+def update_user(id):
+    # Get user from db
+    user = User.query.get(id)
+    # Update user's fields
+    user.public_id = request.json['public_id']
+    user.name = request.json['name']
+    user.password = request.json['password']
+    user.admin = request.json['admin']
+    # Update db
+    db.session.commit()
+    return user_schema.jsonify(user)
+
+# Delete Single User
+@app.route("/user/<id>", methods=['DELETE'])
+def delete_user(id):
+    name = (User.query.get(id)).name
+    user = User.query.get(id)
+    db.session.delete(user)
+    db.session.commit()
+    msg = name + " has been deleted."
+    return jsonify({ 'msg': msg})
 
 
 ### SERVER ###
