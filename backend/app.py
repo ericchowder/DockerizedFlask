@@ -38,12 +38,16 @@ class User(db.Model):
         self.admin = admin
 
 # User Schema
-class UserSchema(ma.Schema):
+#class UserSchema(ma.Schema):
+class UserSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
-        fields = ('id', 'public_id', 'name', 'password', 'admin')
+        #fields = ('id', 'public_id', 'name', 'password', 'admin')
+        load_instance = True
+        model = User
 
 # Init Schema
-user_schema = UserSchema(strict=True)
+user_schema = UserSchema()
+users_schema = UserSchema(many=True)
 
 
 ### ROUTES ###
@@ -72,6 +76,22 @@ def add_user():
     db.session.commit()
     # Respond with new user
     return user_schema.jsonify(new_user)
+
+# Retrieve All Users
+@app.route('/user', methods=['GET'])
+def get_users():
+    all_users = User.query.all()
+    print(all_users)
+    result = jsonify(users_schema.dump(all_users))
+    return (result)
+    
+
+# Retrieve Single User
+@app.route("/user/<id>", methods=['GET'])
+def user_detail(id):
+    user = User.query.get(id)
+    return user_schema.dump(user)
+
 
 ### SERVER ###
 if __name__ == '__main__':
