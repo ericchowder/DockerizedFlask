@@ -11,7 +11,7 @@
           <br>
           Create User: uses fields to create new user in db
           <br>
-          Load User: loads existing users from backend db
+          Load Last User: loads most recently added user
           <br>
           List Form: displays stringified json of current fields
         </p>
@@ -106,16 +106,16 @@
       <h1>This is an users page</h1>
       <p>
         <v-btn
-          @click="loadUser"
-          elevation="2"
-        >Load User</v-btn>
-      {{user}}
-      </p>
-      <p>
-        <v-btn
           @click="listJson"
         >List Form</v-btn>
         {{formUser}}
+      </p>
+      <p>
+        <v-btn
+          @click="loadUser"
+          elevation="2"
+        >Load Last User</v-btn>
+      {{user}}
       </p>
     </v-container>
     <!-- LOAD USERS END -->
@@ -128,6 +128,7 @@ import axios from 'axios'
 
     data: () => ({
       user: '',
+      allUsers: '',
       formUser: '',
 
       // FORM STUFF
@@ -158,7 +159,18 @@ import axios from 'axios'
         try {
           const response = await axios.get('http://localhost:5000/user')
           //console.log("test")
-          this.user = response.data
+          this.user = response.data[response.data.length - 1].name
+          //console.log(user)
+        } catch (err) {
+          console.log(err)
+        }
+      },
+
+      async loadAllUsers(){
+        try {
+          const response = await axios.get('http://localhost:5000/user')
+          //console.log("test")
+          this.allUsers = response.data
           //console.log(user)
         } catch (err) {
           console.log(err)
