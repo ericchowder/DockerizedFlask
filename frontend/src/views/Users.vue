@@ -115,7 +115,16 @@
           @click="loadUser"
           elevation="2"
         >Load Last User</v-btn>
-      {{user}}
+      Name: {{user}}
+      </p>
+      <p disabled>
+        <v-btn
+          @click="loadAllUsers"
+          elevation="2"
+        >
+        Load All Users
+        </v-btn>
+        {{allUsers}}
       </p>
     </v-container>
     <!-- LOAD USERS END -->
