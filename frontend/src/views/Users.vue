@@ -124,7 +124,14 @@
         >
         Load All Users
         </v-btn>
-        {{allUsers}}
+        <br>
+        <!-- {{allUsers}} -->
+        <ul>
+        <li v-for="(user, idx) in allUsers"
+          :key="idx">
+          {{user}}
+        </li>
+        </ul>
       </p>
     </v-container>
     <!-- LOAD USERS END -->

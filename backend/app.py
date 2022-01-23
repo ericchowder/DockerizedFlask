@@ -126,7 +126,8 @@ def delete_user(id):
     msg = name + " has been deleted."
     return jsonify({ 'msg': msg})
 
-@app.route('/return-body', methods=["POST"])
+# Check what backend sees from POST request
+@app.route('/post-check', methods=["POST"])
 def post():
     body = request.data
     print(body)
