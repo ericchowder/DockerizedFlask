@@ -126,6 +126,12 @@ def delete_user(id):
     msg = name + " has been deleted."
     return jsonify({ 'msg': msg})
 
+@app.route('/return-body', methods=["POST"])
+def post():
+    body = request.data
+    print(body)
+    return jsonify(body.decode("utf-8"))
+
 
 ### SERVER ###
 if __name__ == '__main__':

@@ -1,16 +1,143 @@
 <template>
   <div class="users">
-    <h1>This is an users page</h1>
-    {{loadUser()}}
-    {{user}}
+    <!-- FORM -->
+    <v-form v-model="valid">
+      <v-container>
+        <v-row>
+          <v-col
+            cols="12"
+            md="4"
+          >
+            <v-text-field
+              v-model="username"
+              :rules="nameRules"
+              :counter="10"
+              label="Username"
+              required
+            ></v-text-field>
+          </v-col>
+
+          <v-col
+            cols="12"
+            md="4"
+          >
+            <v-text-field
+              v-model="password"
+              :rules="nameRules"
+              :counter="10"
+              label="Password"
+              required
+            ></v-text-field>
+          </v-col>
+
+          <!-- <v-col
+            cols="12"
+            md="4"
+          >
+            <v-text-field
+              v-model="email"
+              :rules="emailRules"
+              label="E-mail"
+              required
+            ></v-text-field>
+          </v-col> -->
+        </v-row>
+      </v-container>
+      <v-container>
+        <v-row>
+          <v-col
+            cols="12"
+            md="4"
+          >
+            <v-text-field
+              v-model="id"
+              :rules="idRules"
+              :counter="3"
+              label="Id"
+              required
+            ></v-text-field>
+          </v-col>
+
+          <v-col
+            cols="12"
+            md="4"
+          >
+            <v-text-field
+              v-model="public_id"
+              :rules="idRules"
+              :counter="5"
+              label="Public ID"
+              required
+            ></v-text-field>
+          </v-col>
+
+          <v-col
+            cols="12"
+            md="4"
+          >
+            <v-checkbox
+              v-model="admin"
+              label="Admin"
+            ></v-checkbox>
+          </v-col>
+        </v-row>
+        <v-btn
+        @click="createUser"
+        elevation="2"
+      >Create User</v-btn>
+      </v-container>
+    </v-form>
+    <!-- FORM END -->
+
+    <!-- LOAD USERS -->
+    <v-container>
+      <h1>This is an users page</h1>
+      <p>
+        <v-btn
+          @click="loadUser"
+          elevation="2"
+        >Load User</v-btn>
+      {{user}}
+      </p>
+      <p>
+        <v-btn
+          @click="listJson"
+        >List Form</v-btn>
+        {{formUser}}
+      </p>
+    </v-container>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
   export default {
+
     data: () => ({
       user: '',
+      formUser: '',
+
+      // FORM STUFF
+      valid: false,
+      username: '',
+      password: '',
+      nameRules: [
+        v => !!v || 'Name is required',
+        v => v.length <= 10 || 'Name must be less than 10 characters',
+      ],
+      id: '',
+      public_id: '',
+      idRules: [
+        v => !!v || 'ID is required',
+        v => Number.isInteger(v) || 'ID must be a number value',
+      ],
+      admin: false
+      // email: '',
+      // emailRules: [
+      //   v => !!v || 'E-mail is required',
+      //   v => /.+@.+/.test(v) || 'E-mail must be valid',
+      // ],
+      // FORM STUFF END
     }),
 
     methods: {
@@ -18,12 +145,51 @@ import axios from 'axios'
         try {
           const response = await axios.get('http://localhost:5000/user')
           //console.log("test")
-          this.user = response.data[0].name
+          this.user = response.data
           //console.log(user)
         } catch (err) {
           console.log(err)
         }
+      },
+
+      async createUser(){
+        try {
+          const headers = {
+            "Content-Type": "application/json"
+          }
+          const response = await axios.post('http://localhost:5000/user', 
+          JSON.stringify({
+            id: this.id,
+            public_id: this.public_id,
+            name: this.username,
+            password: this.password,
+            admin: this.admin
+          }),
+          { headers })
+          console.log(response)
+        } catch (err) {
+          console.log(err)
+        }
+      },
+
+      async listJson(){
+        try {
+          this.formUser =
+          JSON.stringify({
+            id: this.id,
+            public_id: this.public_id,
+            name: this.username,
+            password: this.password,
+            admin: this.admin
+          })
+          console.log(this.formUser)
+        } catch (err) {
+          console.log(err)
+        }
       }
+
+
     }
+    
   }
 </script>
