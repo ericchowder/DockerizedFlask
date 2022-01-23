@@ -1,6 +1,7 @@
 ### IMPORTS ###
 import os
 from flask import Flask, jsonify, request
+from flask_cors import CORS, cross_origin
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 
@@ -8,6 +9,14 @@ from flask_marshmallow import Marshmallow
 ### SET UP ###
 # Init app
 app = Flask(__name__)
+# Allow CORS
+CORS(app)
+# cors = CORS(app, resources={
+#     r"/*":{
+#         "origins":"*"
+#     }
+# })
+# app.config['CORS_HEADERS'] = 'Content-Type'
 # Current directory
 basedir = os.path.abspath(os.path.dirname(__file__))
 # Database in correct directory
@@ -79,10 +88,12 @@ def add_user():
 
 # Retrieve All Users
 @app.route('/user', methods=['GET'])
+#@cross_origin()
 def get_users():
     all_users = User.query.all()
     print(all_users)
     result = jsonify(users_schema.dump(all_users))
+    result.headers.add('Access-Control-Allow-Origin', '*')
     return (result)
     
 # Retrieve Single User
