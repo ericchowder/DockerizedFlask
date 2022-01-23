@@ -3,6 +3,18 @@
     <!-- FORM -->
     <v-form v-model="valid">
       <v-container>
+        <h1>
+          Create New User Here
+        </h1>
+        <p>
+          All Fields are required. Start up backend to see backend logs.
+          <br>
+          Create User: uses fields to create new user in db
+          <br>
+          Load User: loads existing users from backend db
+          <br>
+          List Form: displays stringified json of current fields
+        </p>
         <v-row>
           <v-col
             cols="12"
@@ -106,6 +118,7 @@
         {{formUser}}
       </p>
     </v-container>
+    <!-- LOAD USERS END -->
   </div>
 </template>
 
