@@ -1,18 +1,13 @@
-version: "3.7"
 
-services:
-  simple_flask:
-    container_name: dockerized_flask
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    ports:
-      - 5000:5000
+build:
+  context: ./backend
+  dockerfile: Dockerfile
+ports:
+  - 5000:5000
 
-  simple_vue:
-    container_name: dockerized_vue
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    ports:
-      - '8080:8080'
+
+build:
+  context: ./frontend
+  dockerfile: Dockerfile
+ports:
+  - '8080:8080'
