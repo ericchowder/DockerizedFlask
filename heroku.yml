@@ -1,13 +1,4 @@
 
 build:
-  context: ./backend
-  dockerfile: Dockerfile
-ports:
-  - 5000:5000
-
-
-build:
-  context: ./frontend
-  dockerfile: Dockerfile
-ports:
-  - '8080:8080'
+  docker:
+    web: backend/Dockerfile
