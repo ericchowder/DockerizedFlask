@@ -25,7 +25,9 @@ Sqlaclchemy -> Flask <-> Vue ==> Docker -> Heroku.yml -> Heroku
 ## Setup
 
 Clone repository:
->git clone https://github.com/ericchowder/DockerizedFlask.git
+```
+git clone https://github.com/ericchowder/DockerizedFlask.git
+```
 
 ### Flask
 
@@ -56,13 +58,17 @@ Check if app is running on the port shown.
 
 Navigate to directory containing the Dockerfile. Run the following command to create the image:
 
-> docker build -t my-docker-image .
+```
+docker build -t my-docker-image .
+```
 
 The -t flag indicates the tag/name used to name it, and the dot indicates current directory.
 
 Next, you can run 'docker images' to view all your images. You should see the newly created image. Now, run the following command to run the image:
 
-> docker run -p \<host-port\>:\<container-port\> -d my-docker-image
+```
+docker run -p <host-port>:<container-port> -d my-docker-image
+```
 
 The -p flag indicates the ports, and -d indicates detached mode.
 
@@ -72,4 +78,6 @@ Visit the port that you exposed for the container and you should be able to acce
 
 Heroku does not support docker-compose to run multiple docker containers, so heroku.yml was created in order to alleviate that. Heroku.yml simple builds the front and back end as two separate containers, simply requires a deploy to heroku with the following command:
 
-> git push heroku master
+```
+git push heroku master
+```
