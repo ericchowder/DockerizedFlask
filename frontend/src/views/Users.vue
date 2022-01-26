@@ -188,7 +188,7 @@ import axios from 'axios'
             "Content-Type": "application/x-www-form-urlencoded",
             Accept: "application/json"
           }
-          const response = await axios.get('/user',
+          const response = await axios.get('http://localhost:5000/user',
           { headers })
           //console.log("test")
           this.allUsers = response.data
