@@ -119,7 +119,12 @@ import axios from 'axios'
     methods: {
       async loadUser(){
         try {
-          const response = await axios.get('http://localhost:5000/user')
+          const headers = {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Accept: "application/json"
+          }
+          const response = await axios.get('http://localhost:5000/user',
+          { headers })
           //console.log("test")
           this.user = response.data[0].name
           //console.log(user)
