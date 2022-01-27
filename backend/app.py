@@ -88,7 +88,6 @@ def add_user():
 
 # Retrieve All Users
 @app.route('/user', methods=['GET'])
-#@cross_origin()
 def get_users():
     all_users = User.query.all()
     print(all_users)

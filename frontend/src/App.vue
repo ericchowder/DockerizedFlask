@@ -125,9 +125,7 @@ import axios from 'axios'
           }
           const response = await axios.get('http://localhost:5000/user',
           { headers })
-          //console.log("test")
           this.user = response.data[0].name
-          //console.log(user)
         } catch (err) {
           console.log(err)
         }
